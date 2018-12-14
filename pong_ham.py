@@ -4,14 +4,24 @@ from time import *
 sense = SenseHat()
 
 white = (255, 255, 255)
-purple = (230, 230, 255)
+purple = (255, 0, 255)
 
 bat_y = 4
 ball_position = [3, 3]
 ball_velocity = [1, 1]
 
 def draw_ball():
-      sense.set_pixel(ball_position,ball_position,purple)
+    sense.set_pixel(ball_position[0], ball_position[1], purple)
+    ball_position[0] += ball_velocity[0]
+    if ball_position[0] == 7 or ball_position[0] == 0:
+        ball_velocity[0] = -ball_velocity[0]
+    ball_position[1] += ball_velocity[1]
+    if ball_position[1] == 7 or ball_position[1] == 0:
+        ball_velocity[1] = -ball_velocity[1]
+    if ball_position[0] == 1 and (bat_y - 1) <= ball_position[1] <= (bat_y +1):
+        ball_velocity[0] = -ball_velocity[0]
+    if ball_position[0] == 0:
+        print ("you lose")
 def draw_bat():
     sense.set_pixel(0, bat_y, white)
     sense.set_pixel(0, bat_y + 1, white)
@@ -36,5 +46,6 @@ while True:
     sleep(.25)
     sense.clear(0,0,0)
     draw_bat()
+    draw_ball()
     sense.stick.direction_down = move_down
     sense.stick.direction_up = move_up
