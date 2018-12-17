@@ -5,6 +5,7 @@ sense = SenseHat()
 
 white = (255, 255, 255)
 purple = (255, 0, 255)
+red = (255,0,0)
 
 bat_y = 4
 ball_position = [3, 3]
@@ -21,7 +22,8 @@ def draw_ball():
     if ball_position[0] == 1 and (bat_y - 1) <= ball_position[1] <= (bat_y +1):
         ball_velocity[0] = -ball_velocity[0]
     if ball_position[0] == 0:
-        print ("you lose")
+        sense.show_message ("Failure.exe")
+ 
 def draw_bat():
     sense.set_pixel(0, bat_y, white)
     sense.set_pixel(0, bat_y + 1, white)
@@ -43,9 +45,15 @@ def move_up(event):
     
 sense.clear(0,0,0)
 while True:
-    sleep(.25)
+    sleep(.000001)
     sense.clear(0,0,0)
     draw_bat()
     draw_ball()
     sense.stick.direction_down = move_down
     sense.stick.direction_up = move_up
+    sense.set_rotation(90)
+    sleep(.000001)
+    sense.set_rotation(180)
+    sleep(.000001)
+    sense.set_rotation(270)
+    sleep(.000001)
